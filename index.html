@@ -1,167 +1,62 @@
 <!doctype html>
-<html lang="id">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#071b12" />
-  <meta name="description" content="QRmed! — pemindai QR pintar: scan QR apa pun, cek QRmed!, WiFi, link, kontak, dan buat QR dengan mudah." />
-  <title>QRmed! — Scanner & QR Maker</title>
-  <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
-  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-  <link rel="stylesheet" href="./styles.css" />
-</head>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1e13"><title>QRmed! 2 — Lens Scan, Buat QR, File Manager</title>
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png"><link rel="stylesheet" href="./styles.css"></head>
 <body>
-  <div class="app-shell" id="appShell">
-    <header class="topbar">
-      <a class="brand" href="#" aria-label="QRmed! beranda">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 48 48" role="img"><path class="mark-bg" d="M8 4h32a4 4 0 0 1 4 4v32a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4Z"/><path class="mark-qr" d="M10 10h10v10H10V10Zm5 5h0M27 10h10v10H27V10Zm5 5h0M10 27h10v10H10V27Zm5 5h0M28 27h4v4h-4v-4Zm7 0h3v3h-3v-3Zm-7 7h3v3h3v3h-6v-6Zm13-3h2v9h-3v-4l-1 1v-3h2Z"/></svg>
-        </span>
-        <span class="brand-copy"><strong>QRmed!</strong><small>Scan pintar. Verifikasi pasti.</small></span>
-      </a>
-      <button class="icon-button" id="helpButton" title="Cara pakai" aria-label="Cara pakai">?</button>
-    </header>
+<div id="splash" class="splash"><div class="bug-loader"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="38" rx="16" ry="17" fill="#22c55e"/><circle cx="26" cy="36" r="3.2" fill="#0a0f0a"/><circle cx="38" cy="36" r="3.2" fill="#0a0f0a"/><path d="M28 44 Q32 47 36 44" stroke="#0a0f0a" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M20 26 Q18 16 22 11M32 23 Q32 12 32 8M44 26 Q46 16 42 11" stroke="#0a0f0a" stroke-width="3" stroke-linecap="round" fill="none"/></svg></div><div class="splash-word"><span>Q</span><span>R</span><span>M</span><span>E</span><span>D</span><strong>!</strong><em>2</em></div><div class="splash-bar"><i></i></div><p>Bug menyiapkan lens kamu…</p></div>
 
-    <main>
-      <!-- BERANDA -->
-      <section class="page is-active" id="page-home" aria-labelledby="home-title">
-        <div class="wallet-card">
-          <div class="card-glow"></div>
-          <div class="wallet-row wallet-row-top">
-            <div>
-              <p class="eyebrow">QRmed! wallet</p>
-              <h1 id="home-title" class="greeting">Hai, siap scan?</h1>
-              <p class="wallet-subtitle">Semua QR. Satu genggaman.</p>
-            </div>
-            <span class="status-pill"><span class="pulse-dot"></span> Online lokal</span>
-          </div>
+<div id="auth" class="auth hidden"><div class="auth-card"><div class="auth-mascot"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="38" rx="16" ry="17" fill="#facc15"/><circle cx="26" cy="36" r="3.2" fill="#0a0f0a"/><circle cx="38" cy="36" r="3.2" fill="#0a0f0a"/><path d="M28 44 Q32 47 36 44" stroke="#0a0f0a" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M20 26 Q18 16 22 11M32 23 Q32 12 32 8M44 26 Q46 16 42 11" stroke="#0a0f0a" stroke-width="3" stroke-linecap="round" fill="none"/></svg></div><h1>Halo, aku Bug!</h1><p>Aku si Bug yang nyatet. Isi cepat ya, tersimpan cuma di HP kamu.</p><label>Nickname<input id="nick" placeholder="cth: Andi"></label><label>Nama Bug<input id="bugName" value="Bugg"></label><div class="avatar-row" id="avatars"><button data-col="#22c55e" class="ava active" style="--c:#22c55e">H</button><button data-col="#facc15" class="ava" style="--c:#facc15">K</button><button data-col="#60a5fa" class="ava" style="--c:#60a5fa">B</button><button data-col="#f472b6" class="ava" style="--c:#f472b6">U</button></div><label class="chk"><input id="autoStop" type="checkbox" checked><span>Auto tampilkan hasil scan</span></label><label class="chk"><input id="flashAuto" type="checkbox"><span>Flash auto saat gelap</span></label><button id="saveAuth" class="btn-primary full">Mulai</button></div></div>
 
-          <div class="balance-panel" aria-label="Ringkasan QRmed">
-            <div><span>Total scan</span><strong id="statScans">0</strong></div>
-            <div class="balance-divider"></div>
-            <div><span>QRmed tervalidasi</span><strong id="statVerified">0</strong></div>
-            <div class="balance-divider"></div>
-            <div><span>QR dibuat</span><strong id="statCreated">0</strong></div>
-          </div>
+<div class="shell" id="shell">
+<header class="top"><button class="profile-chip" id="profileChip"><span class="avatar" id="avatarDot">H</span><span><b id="helloName">Halo</b><small id="helloBug">Bug menemani</small></span></button><button id="toScanTop" class="scan-pill">Lens Scan</button></header>
+<main>
+<section id="page-home" class="page active">
+<div class="wallet"><div class="w-top"><span>QRmed! Wallet</span><span class="ok-dot">● Offline ready</span></div><div class="w-bal"><small>Nickname</small><h2 id="walletNick">—</h2><p id="walletSub">Siap scan kapan saja</p></div><div class="w-stats"><div><b id="stScan">0</b><span>Scan</span></div><div><b id="stVer">0</b><span>Valid</span></div><div><b id="stFiles">0</b><span>File</span></div><div><b id="stQr">0</b><span>QR dibuat</span></div></div>
+<div class="w-actions"><button data-go="scan" class="w-act primary"><i>⌗</i><b>Scan QR</b><small>Lens</small></button><button data-go="create" class="w-act"><i>＋</i><b>Buat QR</b><small>QR Lens</small></button><button data-go="files" class="w-act"><i>⧉</i><b>File</b><small>Lokal</small></button><button data-go="history" class="w-act"><i>↺</i><b>Riwayat</b><small>History</small></button></div></div>
+<div class="sec"><h3>Terakhir dipindai</h3><div id="recent" class="list empty">Belum ada.</div></div>
+<div class="sec"><h3>Aksi cepat</h3><div class="quick"><button data-go="scan"><b>Scan Gambar</b><span>Dari galeri / file</span></button><button data-go="create"><b>QR WiFi</b><span>Template siap</span></button><button data-go="profile"><b>Menu Update</b><span>Download versi baru</span></button></div></div>
+</section>
 
-          <div class="wallet-actions">
-            <button class="hero-action" data-go="scan"><span class="action-icon">⌁</span><b>Scan QR</b></button>
-            <button class="hero-action" data-go="create"><span class="action-icon">＋</span><b>Buat QR</b></button>
-            <button class="hero-action" data-go="history"><span class="action-icon">↺</span><b>Riwayat</b></button>
-          </div>
-        </div>
+<section id="page-scan" class="page lens-page">
+<div id="reader" class="lens-reader"></div>
+<div class="lens-ui"><div class="lens-top"><span class="lens-chip">Lens Scan · Full Camera</span><span id="lensStatus" class="lens-chip">Izin kamera aktif</span></div>
+<div class="viewfinder"><div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div><div class="scanline"></div><span class="lens-hint">Arahkan ke QR — otomatis terbaca</span></div>
+<div class="lens-tools"><button id="torchBtn">Flash</button><button id="camBtn">Ganti Kamera</button><label for="imgFile" class="lens-btn">Galeri</label><input id="imgFile" type="file" accept="image/*" hidden></div></div>
+<div id="bigToast" class="big-toast hidden">✓ QR BERHASIL DIBACA!</div>
+<article id="scanResult" class="sheet hidden"></article>
+</section>
 
-        <div class="section-head"><div><p class="section-kicker">Aksi pintar</p><h2>Bisa lebih dari sekadar baca QR</h2></div><button class="text-button" id="seedDemoButton">Isi contoh</button></div>
-        <div class="quick-grid" aria-label="Tipe QR yang didukung">
-          <div class="quick-tile"><span>⌁</span><b>QR apa pun</b><small>Gambar/kamera</small></div>
-          <div class="quick-tile"><span>⌁⌁</span><b>WiFi QR</b><small>Deteksi jaringan</small></div>
-          <div class="quick-tile"><span>✓</span><b>QRmed!</b><small>Nama & status</small></div>
-          <div class="quick-tile"><span>↗</span><b>Link pintar</b><small>Buka tujuan</small></div>
-          <div class="quick-tile"><span>☎</span><b>Kontak</b><small>Simpan .vcf</small></div>
-          <div class="quick-tile"><span>⌘</span><b>WiFi/teks</b><small>Salin & bagikan</small></div>
-        </div>
+<section id="page-create" class="page">
+<div class="head"><h1>Buat QR</h1><p>QR khusus Qrmed 2 bisa dibaca Google Lens juga — tetap verifikasi di aplikasi.</p></div>
+<div class="tabs"><button class="tab active" data-t="general">Umum</button><button class="tab" data-t="qrmed">Qrmed 2</button><button class="tab" data-t="wifi">WiFi</button><button class="tab" data-t="contact">Kontak</button></div>
+<form id="createForm" class="card">
+<fieldset data-p="general" class="panel active"><label>Isi QR<input id="gText" placeholder="https://... atau teks"></label><label>Label<input id="gLabel" placeholder="cuma untuk riwayat"></label></fieldset>
+<fieldset data-p="qrmed" class="panel"><label>Nama<input id="mName" placeholder="cth: Andi Pratama"></label><label>Catatan<input id="mNote" placeholder="cth: Booth A"></label><label class="chk"><input id="mOnce" type="checkbox"><span>Sekali pakai</span></label></fieldset>
+<fieldset data-p="wifi" class="panel"><label>SSID WiFi<input id="wSsid" placeholder="Nama WiFi"></label><label>Password<input id="wPass" placeholder="Password"></label></fieldset>
+<fieldset data-p="contact" class="panel"><label>Nama kontak<input id="cName" placeholder="Nama"></label><label>Telepon<input id="cPhone" placeholder="62812..."></label><label>Email<input id="cEmail" placeholder="nama@email.com"></label></fieldset>
+<div class="row"><button type="button" id="resetCreate" class="btn-ghost">Reset</button><button class="btn-primary">Buat QR</button></div></form>
+<article id="preview" class="card center hidden"></article>
+</section>
 
-        <div class="section-head"><div><p class="section-kicker">Terakhir</p><h2>Aktivitas terbaru</h2></div><button class="text-button" data-go="history">Lihat semua</button></div>
-        <div id="recentList" class="history-list empty-state"><p>Belum ada aktivitas. Scan atau buat QR pertama kamu.</p></div>
-      </section>
+<section id="page-files" class="page">
+<div class="head"><h1>File Manager</h1><p>Simpan file dari luar (foto, PDF, teks). Tersimpan lokal, bisa dibuka / dibagikan / dihapus.</p></div>
+<label class="drop"><input id="fileInput" type="file" multiple hidden><span>＋ Tambah File dari Perangkat</span><small>Pilih PDF / gambar / teks — tersimpan di IndexedDB lokal</small></label>
+<div id="fileList" class="list"></div>
+</section>
 
-      <!-- SCAN -->
-      <section class="page" id="page-scan" aria-labelledby="scan-title">
-        <div class="page-intro"><p class="eyebrow">Mode scan</p><h1 id="scan-title">Scan QR apa pun</h1><p>QRmed!, WiFi, website, kontak, lokasi, dan teks biasa.</p></div>
+<section id="page-history" class="page">
+<div class="head"><h1>Riwayat</h1><p>Semua scan & QR yang kamu buat.</p></div>
+<div class="search-row"><input id="hSearch" placeholder="Cari hasil scan…"><button id="exportBtn" class="btn-ghost">Export</button></div>
+<div id="hList" class="list"></div>
+</section>
 
-        <div class="scan-panel">
-          <div id="scannerStatus" class="camera-note">Kamera menunggu izin. Di perangkat Android, kamera membutuhkan koneksi HTTPS atau localhost.</div>
-          <div id="reader" class="reader" aria-label="Area pemindai QR"></div>
-          <div class="scan-controls">
-            <button class="button button-primary" id="startCameraButton">Mulai Kamera</button>
-            <button class="button button-ghost" id="stopCameraButton" disabled>Hentikan</button>
-            <label class="button button-secondary" for="scanImageInput">Scan Gambar</label>
-            <input id="scanImageInput" type="file" accept="image/*" hidden />
-          </div>
-        </div>
-
-        <article id="scanResult" class="result-card is-hidden" aria-live="polite"></article>
-      </section>
-
-      <!-- BUAT -->
-      <section class="page" id="page-create" aria-labelledby="create-title">
-        <div class="page-intro"><p class="eyebrow">Mode buat</p><h1 id="create-title">Buat QR dalam 10 detik</h1><p>QRmed! tervalidasi lokal di perangkat ini, WiFi, kontak, dan QR umum.</p></div>
-
-        <div class="subtabs" role="tablist" aria-label="Jenis QR">
-          <button class="subtab is-active" data-create-tab="general" role="tab">Umum</button>
-          <button class="subtab" data-create-tab="qrmed" role="tab">QRmed!</button>
-          <button class="subtab" data-create-tab="wifi" role="tab">WiFi</button>
-          <button class="subtab" data-create-tab="contact" role="tab">Kontak</button>
-        </div>
-
-        <form id="createForm" class="creator-card">
-          <fieldset class="create-panel is-active" data-panel="general">
-            <label for="generalText">Isi QR<input id="generalText" type="text" placeholder="https://contoh.com atau teks apa pun" autocomplete="off" required /></label>
-            <label for="generalLabel">Label (opsional)<input id="generalLabel" type="text" placeholder="Contoh: Link katalog" maxlength="80" /></label>
-          </fieldset>
-
-          <fieldset class="create-panel" data-panel="qrmed">
-            <label for="qrmedName">Nama pemilik / peserta<input id="qrmedName" type="text" placeholder="Contoh: Rafi Pratama" autocomplete="off" required /></label>
-            <label for="qrmedNote">Catatan / ID tambahan<input id="qrmedNote" type="text" placeholder="Contoh: Booth A-17" maxlength="80" /></label>
-            <label class="switch-row"><span><b>Sekali pakai</b><small>Setelah discan dan ditandai, QR menjadi tidak berlaku.</small></span><input id="qrmedOneTime" type="checkbox" class="switch" /></label>
-          </fieldset>
-
-          <fieldset class="create-panel" data-panel="wifi">
-            <label for="wifiSsid">Nama WiFi (SSID)<input id="wifiSsid" type="text" placeholder="Contoh: Kopi_Susu" autocomplete="off" required /></label>
-            <label for="wifiPassword">Password<input id="wifiPassword" type="text" placeholder="Password WiFi" autocomplete="off" /></label>
-            <div class="form-grid">
-              <label for="wifiSecurity">Keamanan<select id="wifiSecurity"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="nopass">Tanpa password</option></select></label>
-              <label class="switch-row compact"><span><b>Hidden</b><small>SSID disembunyikan</small></span><input id="wifiHidden" type="checkbox" class="switch" /></label>
-            </div>
-          </fieldset>
-
-          <fieldset class="create-panel" data-panel="contact">
-            <label for="contactName">Nama lengkap<input id="contactName" type="text" placeholder="Contoh: Andini Putri" autocomplete="off" required /></label>
-            <div class="form-grid"><label for="contactPhone">Telepon<input id="contactPhone" type="tel" placeholder="62812..." autocomplete="off" /></label><label for="contactEmail">Email<input id="contactEmail" type="email" placeholder="nama@email.com" autocomplete="off" /></label></div>
-            <label for="contactOrg">Organisasi<input id="contactOrg" type="text" placeholder="Contoh: QRmed! Lab" autocomplete="off" /></label>
-          </fieldset>
-
-          <div class="creator-footer"><button type="button" class="button button-ghost" id="resetCreateButton">Reset</button><button type="submit" class="button button-primary">Buat QR</button></div>
-        </form>
-
-        <article id="createPreview" class="preview-card is-hidden" aria-live="polite"></article>
-      </section>
-
-      <!-- RIWAYAT -->
-      <section class="page" id="page-history" aria-labelledby="history-title">
-        <div class="page-intro"><p class="eyebrow">Riwayat lokal</p><h1 id="history-title">Jejak scan & QR dibuat</h1><p>Tersimpan di browser/perangkat ini. Bisa dicari, disalin, atau dihapus.</p></div>
-        <div class="history-tools"><label class="search-box"><span aria-hidden="true">⌕</span><input id="historySearch" type="search" placeholder="Cari nama, isi QR, atau tipe…" autocomplete="off" /></label><select id="historyFilter" aria-label="Filter riwayat"><option value="all">Semua</option><option value="scan">Scan</option><option value="create">Dibuat</option><option value="valid">Terverifikasi</option></select></div>
-        <div class="history-actions"><button class="button button-secondary" id="exportHistoryButton">Export CSV</button><button class="button button-ghost danger" id="clearHistoryButton">Hapus semua</button></div>
-        <div id="historyList" class="history-list empty-state"><p>Riwayat masih kosong.</p></div>
-      </section>
-    </main>
-
-    <nav class="bottom-nav" aria-label="Navigasi utama">
-      <button class="nav-item is-active" data-go="home"><span>⌂</span><small>Beranda</small></button>
-      <button class="nav-item" data-go="scan"><span>⌁</span><small>Scan</small></button>
-      <button class="nav-fab" data-go="scan" aria-label="Scan cepat">SCAN</button>
-      <button class="nav-item" data-go="create"><span>＋</span><small>Buat</small></button>
-      <button class="nav-item" data-go="history"><span>↺</span><small>Riwayat</small></button>
-    </nav>
-  </div>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <template id="historyItemTemplate">
-    <article class="history-item">
-      <div class="history-icon"></div>
-      <div class="history-copy"><b></b><small></small><p></p></div>
-      <div class="history-item-actions"><button class="mini-action copy" title="Salin">⧉</button><button class="mini-action delete" title="Hapus">×</button></div>
-    </article>
-  </template>
-
-  <dialog id="helpDialog" class="help-dialog">
-    <form method="dialog"><div class="dialog-head"><h2>Cara pakai QRmed!</h2><button class="icon-button" value="close" aria-label="Tutup">×</button></div><ol><li><b>Scan:</b> buka tab Scan, izinkan kamera, lalu arahkan ke QR.</li><li><b>QRmed! valid:</b> nama akan muncul dan tanda centang hijau tampil.</li><li><b>WiFi:</b> QRmed! membaca SSID/password; koneksi tetap butuh konfirmasi Android.</li><li><b>Buat QR:</b> pilih Umum, QRmed!, WiFi, atau Kontak.</li><li><b>Lokal:</b> data tersimpan di perangkat/browser ini, tanpa server.</li></ol><button class="button button-primary full">Mengerti</button></form>
-  </dialog>
-
-  <script src="./vendor/html5-qrcode.min.js"></script>
-  <script src="./vendor/qrcode.js"></script>
-  <script src="./app.js"></script>
-</body>
-</html>
+<section id="page-profile" class="page">
+<div class="head"><h1>Profil & Update</h1><p>Catatan Bug & menu update cuma di sini.</p></div>
+<div class="card"><div class="prof"><span class="avatar lg" id="profAva">H</span><div><b id="profName">—</b><small>Bug: <span id="profBug">Bugg</span></small></div></div><div class="row"><button id="editProfile" class="btn-ghost">Ubah Nama</button><button id="wipeBtn" class="btn-ghost danger">Hapus Data</button></div><label class="chk"><input id="pAuto" type="checkbox" checked><span>Auto tampilkan hasil scan</span></label><label class="chk"><input id="pFlash" type="checkbox"><span>Flash auto</span></label><label class="chk"><input id="pSound" type="checkbox" checked><span>Suara beep</span></label></div>
+<div class="card update-card"><div><b>QRmed! 2.0.0</b><small>build lokal · tanpa server</small></div><span class="badge">v2.0.0</span><div class="row"><button id="checkUpdate" class="btn-primary">Download Update</button><button id="clearCache" class="btn-ghost">Bersihkan Cache</button></div><p class="muted">Klik Download Update = ambil versi terbaru dari GitHub (service worker), lalu reload. Kalau sudah terbaru, tetap beres.</p><div id="updateMsg" class="muted"></div></div>
+</section>
+</main>
+<nav class="nav"><button class="active" data-go="home"><i>⌂</i><small>Beranda</small></button><button data-go="scan"><i>⌗</i><small>Scan</small></button><button data-go="create"><i>＋</i><small>Buat</small></button><button data-go="files"><i>⧉</i><small>File</small></button><button data-go="profile"><i>◉</i><small>Profil</small></button></nav>
+</div>
+<div id="toast" class="toast"></div>
+<script src="./vendor/html5-qrcode.min.js"></script><script src="./vendor/qrcode.js"></script><script src="./app.js"></script>
+</body></html>

@@ -1,4 +1,4 @@
-const CACHE = 'qrmed-v1';
+const CACHE = 'qrmed-v2';
 const CORE = [
   './',
   './index.html',
