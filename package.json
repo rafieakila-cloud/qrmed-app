@@ -1,0 +1,25 @@
+{
+  "name": "qrmed",
+  "version": "1.0.0",
+  "description": "QRmed! - pemindai QR pintar dan pembuat QR lokal dengan tampilan e-wallet hijau.",
+  "private": true,
+  "scripts": {
+    "start": "python -m http.server 8080 --bind 0.0.0.0",
+    "tunnel": "npx localtunnel --port 8080",
+    "check": "node --check app.js"
+  },
+  "keywords": [
+    "pwa",
+    "qr",
+    "scanner",
+    "android"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "html5-qrcode": "^2.3.8",
+    "qrcode": "^1.5.4",
+    "qrcode-generator": "^2.0.4"
+  }
+}

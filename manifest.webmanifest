@@ -1,0 +1,15 @@
+{
+  "name": "QRmed! — Scanner & QR Maker",
+  "short_name": "QRmed!",
+  "description": "Pemindai QR pintar dan pembuat QR lokal: QRmed!, WiFi, link, kontak, dan riwayat di perangkat.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#03150d",
+  "theme_color": "#071b12",
+  "orientation": "portrait",
+  "lang": "id",
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
