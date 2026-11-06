@@ -23,7 +23,7 @@ jobs:
       - name: Siapkan folder publik
         run: |
           mkdir _site
-          cp index.html styles.css app.js manifest.webmanifest sw.js .nojekyll _site/
+          cp index.html styles.css app.js manifest.webmanifest sw.js _site/
           cp -R vendor icons _site/
       - name: Upload artifact Pages
         uses: actions/upload-pages-artifact@v3
@@ -32,3 +32,4 @@ jobs:
       - name: Deploy ke GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
