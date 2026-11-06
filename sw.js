@@ -1,34 +1,4 @@
-const CACHE = 'qrmed-v6';
-const CORE = [
-  './',
-  './index.html',
-  './styles.css',
-  './app.js',
-  './manifest.webmanifest',
-  './vendor/html5-qrcode.min.js',
-  './vendor/qrcode.js',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
-];
-
-self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting()));
-});
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  const request = event.request;
-  if (request.method !== 'GET' || new URL(request.url).origin !== location.origin) return;
-  event.respondWith(
-    caches.match(request).then(cached => cached || fetch(request).then(response => {
-      const copy = response.clone();
-      caches.open(CACHE).then(cache => cache.put(request, copy));
-      return response;
-    }).catch(() => caches.match('./index.html')))
-  );
-});
+const CACHE='qrmed-v7';const CORE=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./vendor/html5-qrcode.min.js','./vendor/qrcode.js','./icons/icon-192.png','./icons/icon-512.png'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==self.location.origin)return;e.respondWith(caches.match(e.request).then(c=>c||fetch(e.request).then(r=>{let cl=r.clone();caches.open(CACHE).then(ca=>ca.put(e.request,cl));return r}).catch(()=>caches.match('./index.html'))))});

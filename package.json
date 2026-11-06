@@ -1,25 +1,23 @@
 {
-  "name": "qrmed",
+  "name": "opendode",
   "version": "1.0.0",
-  "description": "QRmed! - pemindai QR pintar dan pembuat QR lokal dengan tampilan e-wallet hijau.",
-  "private": true,
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "python -m http.server 8080 --bind 0.0.0.0",
-    "tunnel": "npx localtunnel --port 8080",
-    "check": "node --check app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "pwa",
-    "qr",
-    "scanner",
-    "android"
-  ],
-  "author": "",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafieakila-cloud/qrmed-app.git"
+  },
+  "keywords": [],
   "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rafieakila-cloud/qrmed-app/issues"
+  },
+  "homepage": "https://github.com/rafieakila-cloud/qrmed-app#readme",
   "dependencies": {
     "html5-qrcode": "^2.3.8",
-    "qrcode": "^1.5.4",
     "qrcode-generator": "^2.0.4"
   }
 }
