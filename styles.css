@@ -2,13 +2,13 @@
 *{box-sizing:border-box}body{margin:0;min-height:100svh;background:var(--bg);color:#fff;font-family:Inter,system-ui,-apple-system,sans-serif;overflow-x:hidden}
 .hidden{display:none!important}
 .phone-bg{position:fixed;inset:0;background:radial-gradient(ellipse at 75% 20%,transparent 40%,transparent),linear-gradient(160deg,#ffe066,#ffc11a 60%,#ffb300)}.glow{position:absolute;right:-30%;top:-20%;width:70%;height:70%;background:radial-gradient(circle,#fff3 0,transparent 70%)}
-.app{position:relative;width:min(480px,100%);margin:0 auto;min-height:100svh;padding:12px 14px 92px}
+.app{position:relative;width:min(480px,100%);margin:0 auto;min-height:100svh;padding:12px 14px 92px;z-index:1}
 .screen{display:none;animation:up .35s cubic-bezier(.2,.9,.3,1)} .screen.show{display:block}@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
 /* onboarding */
 .top-status,.status{display:flex;justify-content:space-between;align-items:center;padding:8px 2px}
-.hero-art{position:relative;background:var(--dark);border-radius:28px 28px 0 0;margin-top:18px;padding:36px 24px 0;text-align:center}
+.hero-art{position:relative;background:var(--dark);border-radius:22px;margin:16px 0 0;padding:32px 20px 26px;text-align:center}
 .hero-art svg{width:150px;height:150px}
-.sheet-hero{background:#fff;color:#111;border-radius:28px 28px 0 0;margin-top:-8px;padding:28px 22px;position:relative;z-index:2}
+.sheet-hero{background:#fff;color:#111;border-radius:22px;margin-top:12px;padding:24px 20px;position:relative;z-index:2;box-shadow:0 14px 30px #0001}
 .sheet-hero h1{margin:0 0 8px;font-size:30px;letter-spacing:-.02em}.sheet-hero p{color:#666;line-height:1.4}
 .sheet-hero input{width:100%;border:0;background:#f3f3f7;border-radius:16px;padding:16px;margin-top:12px;font-size:16px;outline:none}
 .fab{width:52px;height:52px;border-radius:50%;border:0;background:var(--y);color:#111;font-size:22px;font-weight:900;box-shadow:0 10px 22px #ffb30066}
