@@ -17,9 +17,8 @@
 .lens-page:not(.active){display:none!important}
 .lens-reader{position:absolute;inset:0;z-index:1;pointer-events:none}
 .lens-reader video{width:100%!important;height:100%!important;object-fit:cover!important;transform:none!important;pointer-events:none}
-.lens-reader canvas,.lens-reader img{pointer-events:none}
-.lens-reader [id*="__dashboard"],.lens-reader [id*="__scan_region"]{border:none!important;box-shadow:none!important;background:transparent!important}
-.lens-reader [id*="__scan_region"]{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
+.lens-reader canvas{display:none!important}
+.lens-reader [id*="__dashboard"],.lens-reader [id*="__scan_region"]{border:none!important;box-shadow:none!important;background:transparent!important;display:none!important}
 .lens-ui{position:absolute;inset:0;z-index:3;pointer-events:none;display:grid;place-items:center}
 .lens-top{position:absolute;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}
 .lens-chip{background:#000000cc;padding:9px 14px;border-radius:999px;font-size:13px;font-weight:700;border:0;color:#fff;pointer-events:auto;cursor:pointer;min-height:44px}
