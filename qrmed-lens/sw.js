@@ -1,4 +1,4 @@
-const CACHE='lens-v2';
+const CACHE='lens-v3';
 const CORE=['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./vendor/html5-qrcode.min.js','./vendor/qrcode.js','./icons/icon-192.png','./icons/icon-512.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
