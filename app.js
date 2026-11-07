@@ -1,7 +1,7 @@
 (()=>{'use strict';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-const store={h:'qrmed.history',c:'qrmed.codes',p:'qrmed.profile'};const load=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}};const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const hist=()=>load(store.h,[]);const codes=()=>load(store.c,[]);const prof=()=>load(store.p,null);
+const store={h:'qrmed.history',c:'qrmed.codes'};const load=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}};const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const hist=()=>load(store.h,[]);const codes=()=>load(store.c,[]);
 const toast=m=>{let e=$('#toast');e.textContent=m;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)};const big=m=>{let e=$('#bigToast');e.textContent=m;e.classList.remove('hidden');setTimeout(()=>e.classList.add('hidden'),1600)};
 const copy=async t=>{try{await navigator.clipboard.writeText(t);toast('Disalin')}catch{}};const dl=(b,n)=>{let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;a.click()};const dlt=(t,n,ty='text/plain')=>dl(new Blob([t],{type:ty}),n);
 const nid=()=>`QRM-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
@@ -9,11 +9,6 @@ function addH(e){let r={id:crypto.randomUUID||String(Date.now()),ts:Date.now(),v
 function go(p){if(p!=='scan')stopCam();$$('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+p));$$('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.go===p));if(p==='scan')setTimeout(startCam,120)}
 document.addEventListener('click',e=>{let g=e.target.closest('[data-go]');if(g)go(g.dataset.go)});
 $('#toScanTop').onclick=()=>go('scan');$('#lensExit').onclick=()=>go('home');
-function applyProf(){let p=prof();if(p){$('#helloName').textContent='Halo, '+p.nick;$('#avatarDot').textContent=p.nick[0]||'A';$('#walletNick').textContent=p.nick;$('#profName').textContent=p.nick;$('#profAva').textContent=p.nick[0]||'A';$('#pAuto').checked=p.autoStop!==false}}
-function initAuth(){$('#auth').classList.toggle('hidden',!!prof())}
-$('#saveAuth').onclick=()=>{let n=$('#nick').value.trim()||'Kamu';save(store.p,{nick:n,autoStop:$('#autoStop').checked});$('#auth').classList.add('hidden');applyProf();toast('Halo '+n+'!')};
-$('#editProfile').onclick=()=>{$('#auth').classList.remove('hidden')};
-$('#wipeBtn').onclick=()=>{if(confirm('Hapus semua data lokal?')){localStorage.removeItem(store.h);localStorage.removeItem(store.c);localStorage.removeItem(store.p);location.reload()}};
 function render(){let h=hist();$('#stScan').textContent=h.filter(x=>x.action==='scan').length;$('#stVer').textContent=h.filter(x=>x.valid).length;$('#stQr').textContent=h.filter(x=>x.action==='create').length;let r=$('#recent');r.className='list';r.innerHTML=h.length?h.slice(0,3).map(x=>`<div class="fitem"><span class="ficon">${x.valid?'✓':'⌗'}</span><div style="flex:1"><b>${esc(x.title)}</b><small>${new Date(x.ts).toLocaleString('id-ID')}</small></div></div>`).join(''):'<div class="list empty">Belum ada.</div>';renderFiles();renderHist()}
 function renderHist(){let q=($('#hSearch').value||'').toLowerCase(),l=$('#hList'),items=hist().filter(x=>(x.title+x.summary+x.raw).toLowerCase().includes(q));l.innerHTML=items.map(x=>`<div class="fitem"><span class="ficon">${x.valid?'✓':'⌗'}</span><div style="flex:1"><b>${esc(x.title)}</b><small>${esc(x.summary||x.raw).slice(0,80)}</small></div><button data-c="${esc(x.raw)}">Salin</button></div>`).join('')||'<div class="list empty">Tidak ada.</div>';l.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>copy(b.dataset.c))}
 /* CAMERA full */
@@ -51,7 +46,6 @@ l.querySelectorAll('[data-o]').forEach(b=>b.onclick=async()=>{let f=(await fAll(
 l.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{let db=await idb();db.transaction('f','readwrite').objectStore('f').delete(b.dataset.d);renderFiles()})}
 $('#fileInput').onchange=e=>fAdd([...e.target.files]);
 $('#hSearch').oninput=renderHist;$('#exportBtn').onclick=()=>dlt('id,action,title,summary\n'+hist().map(r=>[r.id,r.action,r.title,r.summary].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n'),'qrmed.csv','text/csv');
-$('#pAuto').onchange=e=>{let p=prof();p.autoStop=e.target.checked;save(store.p,p)};
-applyProf();initAuth();render();
+render();
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
