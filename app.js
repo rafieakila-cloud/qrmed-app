@@ -1,7 +1,7 @@
 (()=>{'use strict';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-const store={h:'qrmed.history',c:'qrmed.codes'};const load=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}};const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const hist=()=>load(store.h,[]);const codes=()=>load(store.c,[]);
+const store={h:'qrmed.history',c:'qrmed.codes',a:'qrmed.absen'};const load=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}};const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const hist=()=>load(store.h,[]);const codes=()=>load(store.c,[]);const absen=()=>load(store.a,[]);const setAbsen=v=>save(store.a,v);
 const toast=m=>{let e=$('#toast');e.textContent=m;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)};const big=m=>{let e=$('#bigToast');e.textContent=m;e.classList.remove('hidden');setTimeout(()=>e.classList.add('hidden'),1600)};
 const copy=async t=>{try{await navigator.clipboard.writeText(t);toast('Disalin')}catch{}};const dl=(b,n)=>{let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;a.click()};const dlt=(t,n,ty='text/plain')=>dl(new Blob([t],{type:ty}),n);
 const nid=()=>`QRM-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
@@ -47,6 +47,15 @@ l.querySelectorAll('[data-o]').forEach(b=>b.onclick=async()=>{let f=(await fAll(
 l.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{let db=await idb();db.transaction('f','readwrite').objectStore('f').delete(b.dataset.d);renderFiles()})}
 $('#fileInput').onchange=e=>fAdd([...e.target.files]);
 $('#hSearch').oninput=renderHist;$('#exportBtn').onclick=()=>dlt('id,action,title,summary\n'+hist().map(r=>[r.id,r.action,r.title,r.summary].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n'),'qrmed.csv','text/csv');
+function renderAbsen(){let l=$('#absenList');let items=absen();l.innerHTML=items.length?items.map(x=>`<div class="fitem"><span class="ficon">✓</span><div style="flex:1"><b>${esc(x.name)}</b><small>NIS ${esc(x.nis)}</small></div><button data-del="${esc(x.nis)}">Hapus</button></div>`).join(''):'<div class="list empty">Belum ada data. Admin tambah dulu.</div>';l.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{setAbsen(absen().filter(x=>x.nis!==b.dataset.del));renderAbsen()})}
+$('#absenSeed').onclick=()=>{setAbsen([{nis:'12345',name:'Andi Pratama'},{nis:'12346',name:'Budi Santoso'}]);renderAbsen();toast('Contoh ditambahkan')};
+$('#absenForm').onsubmit=e=>{e.preventDefault();let nis=$('#absenNis').value.trim(),name=$('#absenName').value.trim();if(!nis||!name)return toast('Isi NIS + Nama');if(absen().some(x=>x.nis===nis))return toast('NIS sudah ada');setAbsen([...absen(),{nis,name,ts:Date.now()}]);$('#absenNis').value='';$('#absenName').value='';renderAbsen();toast('Tersimpan')};
+$('#checkForm').onsubmit=e=>{e.preventDefault();let nis=$('#checkNis').value.trim(),name=$('#checkName').value.trim().toLowerCase();let found=absen().find(x=>x.nis===nis&&x.name.toLowerCase()===name);let out=$('#absenResult');
+if(found){beep();big('✓ ABSEN BERHASIL!');out.innerHTML=`<div class="success-wrap"><svg class="check-anim" viewBox="0 0 104 104"><circle cx="52" cy="52" r="46"/><path d="M30 54l15 15 30-34"/></svg><h3 style="margin:0">Hadir, ${esc(found.name)}!</h3><p class="muted">NIS ${esc(found.nis)} cocok · ${new Date().toLocaleString('id-ID')}</p><div class="row"><button id="ntfBtn" class="btn-primary">Kirim Notifikasi</button><a id="smsBtn" class="btn-ghost" target="_blank" href="sms:?body=${encodeURIComponent('Absen '+found.name+' NIS '+found.nis+' sudah hadir '+new Date().toLocaleString('id-ID'))}">Kirim SMS</a></div></div>`;
+$('#ntfBtn').onclick=async()=>{if('Notification' in window){let p=await Notification.requestPermission();if(p==='granted')new Notification('Absen Berhasil', {body:found.name+' · NIS '+found.nis});else toast('Izin notif ditolak')}else toast('Notifikasi tidak didukung')};
+}else{out.innerHTML=`<div class="success-wrap"><span class="badge" style="background:#fee2e2;color:#b91c1c">Tidak cocok</span><p class="muted">NIS atau Nama belum terdaftar di admin.</p></div>`}
+};
+renderAbsen();
 render();
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 })();
